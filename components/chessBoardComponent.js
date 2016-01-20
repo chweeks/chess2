@@ -3,34 +3,39 @@
 var React = require('react/addons');
 var Knight = require('./knightComponent');
 
-var whiteCellStyle = {
-  width: '100px',
-  height: '100px',
-  border: 'solid',
-  borderWidth: '2px',
-  borderColor: 'grey',
-  backgroundColor: 'white',
-  display: 'inline-flex'
-};
-
-var greyCellStyle = {
-  width: '100px',
-  height: '100px',
-  border: 'solid',
-  borderWidth: '2px',
-  borderColor: 'grey',
-  backgroundColor: 'grey',
-  display: 'inline-flex'
-};
-
 var boardStyle = {
   margin: 'auto',
-  width: '806px',
-  height: '806px',
+  width: '800px',
+  height: '800px',
   border: 'solid',
   borderColor: 'grey',
-  lineHeight: '0px'
+  lineHeight: '0px',
+  display: 'flex',
+  flexWrap: 'wrap'
 };
+
+var Cell = React.createClass({displayName: "Cell",
+  propTypes: {
+    grey: React.PropTypes.bool
+  },
+
+  render: function() {
+    var cellColour = this.props.grey ? "grey" : "white";
+
+    return (
+      React.createElement("div", {style: {
+        width: "100px",
+        height: "100px",
+        backgroundColor: cellColour,
+        borderWidth: "2px",
+        borderColor: "grey",
+        display: 'inline-flex'
+      }}, 
+      this.props.children
+      )
+    );
+  }
+});
 
 var ChessBoard = React.createClass({displayName: "ChessBoard",
 
@@ -52,14 +57,29 @@ var ChessBoard = React.createClass({displayName: "ChessBoard",
       }
     });
   },
+  createCells: function(i) {
+    //  alternates grey and white cells and doubles up every 8 cells
+    var x = i % 8;
+    var y = Math.floor(i / 8);
+    var grey = (x + y) % 2 === 1;
+
+    return (
+      React.createElement("div", {className: "cell", key: i}, 
+        React.createElement(Cell, {grey: grey}
+
+        )
+      )
+    );
+  },
+
   render: function() {
+    var cells= [];
+    for(let i=0; i<64; i++){
+      cells.push(this.createCells(i))
+    };
     return (
       React.createElement("div", {style: boardStyle}, 
-        React.createElement("div", {className: "cell", id: "cell1", style: greyCellStyle}, 
-          React.createElement(Knight, null)
-        ), 
-        React.createElement("div", {className: "cell", id: "cell2", style: whiteCellStyle}
-        )
+        cells
       )
     );
   }
