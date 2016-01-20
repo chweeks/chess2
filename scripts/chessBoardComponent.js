@@ -23,7 +23,7 @@ var Cell = React.createClass({
     var cellColour = this.props.grey ? "grey" : "white";
 
     return (
-      <div style={{
+      <div id={this.props.id} className='cell' style={{
         width: "100px",
         height: "100px",
         backgroundColor: cellColour,
@@ -39,9 +39,15 @@ var Cell = React.createClass({
 
 var ChessBoard = React.createClass({
 
+  propTypes: {
+    id: React.PropTypes.number,
+    knightPosition: React.PropTypes.arrayOf(React.PropTypes.number)
+  },
+
   componentDidMount: function() {
     $('.cell').droppable({
       drop: function(event, ui) {
+        //transfers knight image from one div to another
         var knightId = $(ui.draggable).attr('id');
         var knightStyle = $(ui.draggable).attr('style');
         var knightSrc = $(ui.draggable).attr('src');
@@ -63,12 +69,15 @@ var ChessBoard = React.createClass({
     var y = Math.floor(i / 8);
     var grey = (x + y) % 2 === 1;
 
-    return (
-      <div className='cell' key={i}>
-        <Cell grey={grey}>
+    var knightX = this.props.knightPosition[0];
+    var knightY = this.props.knightPosition[1];
 
-        </Cell>
-      </div>
+     var knight = (x==knightX && y==knightY) ? <Knight /> : null
+
+    return (
+      <Cell id={i} grey={grey}>
+        {knight}
+      </Cell>
     );
   },
 
