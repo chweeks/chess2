@@ -28,6 +28,8 @@
     "gulp-shell": "^0.4.1",
     "harmonize": "^1.4.1",
     "jest-cli": "^0.4.1",
+    "jquery": "^2.2.0",
+    "jquery-ui": "^1.10.5",
     "jspm": "^0.15.5",
     "react": "^0.13.2",
     "react-tools": "^0.13.2",

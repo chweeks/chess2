@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react/addons');
-var $ = require('node_modules/jquery/dist/jquery');
-require('node_modules/jquery-ui/jquery-ui');
+var $ = require('../node_modules/jquery/dist/jquery');
+require('../node_modules/jquery-ui/jquery-ui');
 
 var imageStyle = {
   height: '100px',

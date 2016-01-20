@@ -44,7 +44,11 @@ var ChessBoard = React.createClass({
         var knightHtml = '<img id='+knightId+' style='+knightStyle+' src='+knightSrc+' />'
 
         $(ui.draggable).remove();
-        $('#' + cell).append(knightHtml)
+        $('#' + cell).append(knightHtml);
+
+        $('#knight').draggable({
+          helper: 'clone'
+        });
       }
     });
   },
