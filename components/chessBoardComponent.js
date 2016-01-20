@@ -33,13 +33,28 @@ var boardStyle = {
 };
 
 var ChessBoard = React.createClass({displayName: "ChessBoard",
+
+  componentDidMount: function() {
+    $('.cell').droppable({
+      drop: function(event, ui) {
+        var knightId = $(ui.draggable).attr('id');
+        var knightStyle = $(ui.draggable).attr('style');
+        var knightSrc = $(ui.draggable).attr('src');
+        var cell = $(this).attr('id');
+        var knightHtml = '<img id='+knightId+' style='+knightStyle+' src='+knightSrc+' />'
+
+        $(ui.draggable).remove();
+        $('#' + cell).append(knightHtml)
+      }
+    });
+  },
   render: function() {
     return (
       React.createElement("div", {style: boardStyle}, 
-        React.createElement("div", {className: "greyCell", style: greyCellStyle}, 
+        React.createElement("div", {className: "cell", id: "cell1", style: greyCellStyle}, 
           React.createElement(Knight, null)
         ), 
-        React.createElement("div", {style: whiteCellStyle}
+        React.createElement("div", {className: "cell", id: "cell2", style: whiteCellStyle}
         )
       )
     );
