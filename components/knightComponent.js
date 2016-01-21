@@ -15,6 +15,7 @@ var Knight = React.createClass({displayName: "Knight",
       helper: 'clone'
     });
   },
+
   render: function() {
     return(
       React.createElement("img", {id: "knight", style: imageStyle, src: "/images/blackKnight.png"})

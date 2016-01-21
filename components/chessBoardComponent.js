@@ -15,6 +15,12 @@ var boardStyle = {
   flexWrap: 'wrap'
 };
 
+function validMove(x, y, newX, newY){
+
+  return ((Math.abs(newX - x) == 2 && (Math.abs(newY - y) == 1)) ||
+          (Math.abs(newY - y) == 2 && (Math.abs(newX - x) == 1)) )
+};
+
 var ChessBoard = React.createClass({displayName: "ChessBoard",
 
   propTypes: {
@@ -29,15 +35,28 @@ var ChessBoard = React.createClass({displayName: "ChessBoard",
         var knightId = $(ui.draggable).attr('id');
         var knightStyle = $(ui.draggable).attr('style');
         var knightSrc = $(ui.draggable).attr('src');
-        var cell = $(this).attr('id');
         var knightHtml = '<img id='+knightId+' style='+knightStyle+' src='+knightSrc+' />'
 
-        $(ui.draggable).remove();
-        $('#' + cell).append(knightHtml);
+        // accessing current knights position
+        var knightPosition = $(ui.draggable).parent().data('pos').split(',');
+        var x = parseInt(knightPosition[0]);
+        var y = parseInt(knightPosition[1]);
 
-        $('#knight').draggable({
-          helper: 'clone'
-        });
+        // accessing prospective position
+        var cell = $(this).attr('id');
+        var cellPosition = $(this).data('pos').split(',');
+        var newX = parseInt(cellPosition[0]);
+        var newY = parseInt(cellPosition[1]);
+
+        if(validMove(x, y, newX, newY)){
+
+          $(ui.draggable).remove();
+          $('#' + cell).append(knightHtml)
+
+          $('#knight').draggable({
+            helper: 'clone'
+          });
+        };
       }
     });
   },
@@ -54,7 +73,7 @@ var ChessBoard = React.createClass({displayName: "ChessBoard",
     var knight = (x==knightX && y==knightY) ? React.createElement(Knight, null) : null
 
     return (
-      React.createElement(Cell, {id: i, grey: grey}, 
+      React.createElement(Cell, {id: i, grey: grey, position: [x,y]}, 
         knight
       )
     );
@@ -65,7 +84,7 @@ var ChessBoard = React.createClass({displayName: "ChessBoard",
     for(let i=0; i<64; i++){
       cells.push(this.createCells(i))
     };
-    
+
     return (
       React.createElement("div", {style: boardStyle}, 
         cells

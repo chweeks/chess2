@@ -3,7 +3,9 @@
 var React = require('react/addons');
 
 var Cell = React.createClass({displayName: "Cell",
+
   propTypes: {
+    position: React.PropTypes.arrayOf(React.PropTypes.number),
     grey: React.PropTypes.bool
   },
 
@@ -11,7 +13,7 @@ var Cell = React.createClass({displayName: "Cell",
     var cellColour = this.props.grey ? "grey" : "white";
 
     return (
-      React.createElement("div", {id: this.props.id, className: "cell", style: {
+      React.createElement("div", {id: this.props.id, className: "cell", "data-pos": this.props.position, style: {
         width: "100px",
         height: "100px",
         backgroundColor: cellColour,
